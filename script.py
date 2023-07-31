@@ -110,7 +110,14 @@
 
 def findSkills(html):
     html = html.split("\n")
-    print(html)
+
+    for line in html:
+        if(line.find("h5") != -1):
+            num_stars = 0
+            print(line)
+        if(line.find("/i") != -1):
+            num_stars = line.count("fill")
+            print(num_stars)
 
 f = open("htmldump", "r")
 dump = f.read()
