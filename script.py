@@ -113,8 +113,8 @@ def findSkills(html):
 
     for line in html:
         if(line.find("h5") != -1):
-            num_stars = 0
-            print(line)
+            skill = line[line.find(">") + 1:line.rfind("<")]
+            print(skill)
         if(line.find("/i") != -1):
             num_stars = line.count("fill")
             print(num_stars)
