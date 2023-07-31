@@ -16,6 +16,10 @@ options.add_experimental_option("detach", True)
 
 driver = webdriver.Chrome(options=options)
 
+# Read all necessary info from file
+f = open("info", "r")
+info = f.readlines()
+
 # Visiting site
 url = "https://onlinejobs.ph/login"
 driver.get(url)
@@ -23,15 +27,15 @@ driver.get(url)
 # Enter username
 login_username = driver.find_element(By.ID, "login_username")
 
-f = open("credentials", "r")
-
-email = f.readline()
+email = info[0]
 login_username.send_keys(email + Keys.RETURN)
+
+time.sleep(0.2)
 
 # Enter password
 login_password = driver.find_element(By.ID, "login_password")
 
-password = f.readline()
+password = info[1]
 login_password.send_keys(password + Keys.RETURN)
 
 time.sleep(1)
@@ -39,7 +43,7 @@ time.sleep(1)
 # Search for position
 search = driver.find_element(By.NAME, "keyword")
 
-position = f.readline()
+position = info[2]
 search.send_keys(position + Keys.RETURN)
 
 time.sleep(1)
@@ -65,10 +69,28 @@ for i,link in enumerate(profile_links[:3]):
 
     time.sleep(1)
 
+    # Click contact button
     button = driver.find_element(By.CLASS_NAME, "contact-js-btn")
     button.click()
 
-    time.sleep(2)
+    time.sleep(0.2)
+
+    # Enter subject
+    info_subject = driver.find_element(By.ID, "info_subject")
+    subject = info[3]
+    info_subject.send_keys(subject)
+
+    time.sleep(0.2)
+
+    # Enter message
+    info_message = driver.find_element(By.ID, "info_message")
+    message = ''
+    for line in info[4:]:
+        message += line
+
+    info_message.send_keys(message)
+
+    time.sleep(5)
 
 driver.close()
 
