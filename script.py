@@ -70,8 +70,8 @@ for i,link in enumerate(profile_links[:3]):
     time.sleep(1)
 
     # Click contact button
-    button = driver.find_element(By.CLASS_NAME, "contact-js-btn")
-    button.click()
+    contact_button = driver.find_element(By.CLASS_NAME, "contact-js-btn")
+    contact_button.click()
 
     time.sleep(0.2)
 
@@ -89,6 +89,10 @@ for i,link in enumerate(profile_links[:3]):
         message += line
 
     info_message.send_keys(message)
+
+    # # Click send message button
+    # submit_button = driver.find_element(By.CLASS_NAME, "submit-msg")
+    # submit_button.click()
 
     time.sleep(5)
 
