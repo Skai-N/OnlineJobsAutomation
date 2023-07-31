@@ -9,59 +9,43 @@ from selenium.webdriver.support import expected_conditions as EC
 
 import time
 
+# Configuring browser options
 options = Options()
 options.add_experimental_option("detach", True)
 
 driver = webdriver.Chrome(options=options)
 
+# Visiting site
 url = "https://onlinejobs.ph/login"
-# url = "https://google.com"
 driver.get(url)
 
+# Enter username
 login_username = driver.find_element(By.ID, "login_username")
 
 f = open("credentials", "r")
 
 email = f.readline()
 login_username.send_keys(email + Keys.RETURN)
-login_username.send_keys(Keys.RETURN)
 
-time.sleep(.5)
-
+# Enter password
 login_password = driver.find_element(By.ID, "login_password")
 
 password = f.readline()
 login_password.send_keys(password + Keys.RETURN)
 
-# time.sleep(2)
+time.sleep(1)
 
-# print("sleep")
+# Search for position
+search = driver.find_element(By.NAME, "keyword")
 
-# body = driver.find_element_by_tag_name("body")
-# body.send_keys(Keys.CONTROL + 'r')
+position = f.readline()
+search.send_keys(position + Keys.RETURN)
 
-# print("bop")
+time.sleep(1)
 
-# try:
-#     search = WebDriverWait(driver, 5).until(
-#         EC.presence_of_element_located((By.NAME, "keyword"))
-#     )
+# Find all worker profiles
+profiles = driver.find_elements(By.TAG_NAME, "a")
 
-#     search = driver.find_element(By.NAME, "keyword")
-#     WebDriverWait(driver, 5).until(EC.staleness_of(search))
-# except :
-#     driver.quit()
-
-# driver.refresh()
-
-# search = driver.find_element(By.ID, "searchform")
-# WebDriverWait(driver, 5).until(EC.staleness_of(search))
-# search = driver.find_element(By.ID, "searchform")
-
-# position = f.readline()
-# search.send_keys(position)
-# search.send_keys(Keys.RETURN)
-
-# time.sleep(5)
+print(profiles)
 
 # driver.quit()
