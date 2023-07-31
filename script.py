@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
-# from selenium.common import exceptions
+from selenium.common import exceptions
 
 import time
 
@@ -69,30 +69,34 @@ for i,link in enumerate(profile_links[:3]):
 
     time.sleep(1)
 
-    # Click contact button
-    contact_button = driver.find_element(By.CLASS_NAME, "contact-js-btn")
-    contact_button.click()
+    try:
+        warning = driver.find_element(By.CLASS_NAME, "text-warning")
+    except exceptions.NoSuchElementException:
+        
+        # Click contact button
+        contact_button = driver.find_element(By.CLASS_NAME, "contact-js-btn")
+        contact_button.click()
 
-    time.sleep(0.2)
+        time.sleep(0.2)
 
-    # Enter subject
-    info_subject = driver.find_element(By.ID, "info_subject")
-    subject = info[3]
-    info_subject.send_keys(subject)
+        # Enter subject
+        info_subject = driver.find_element(By.ID, "info_subject")
+        subject = info[3]
+        info_subject.send_keys(subject)
 
-    time.sleep(0.2)
+        time.sleep(0.2)
 
-    # Enter message
-    info_message = driver.find_element(By.ID, "info_message")
-    message = ''
-    for line in info[4:]:
-        message += line
+        # Enter message
+        info_message = driver.find_element(By.ID, "info_message")
+        message = ''
+        for line in info[4:]:
+            message += line
 
-    info_message.send_keys(message)
+        info_message.send_keys(message)
 
-    # # Click send message button
-    # submit_button = driver.find_element(By.CLASS_NAME, "submit-msg")
-    # submit_button.click()
+        # # Click send message button
+        # submit_button = driver.find_element(By.CLASS_NAME, "submit-msg")
+        # submit_button.click()
 
     time.sleep(5)
 
