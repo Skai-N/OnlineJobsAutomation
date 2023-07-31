@@ -44,8 +44,12 @@ search.send_keys(position + Keys.RETURN)
 time.sleep(1)
 
 # Find all worker profiles
-profiles = driver.find_elements(By.TAG_NAME, "a")
+profiles = driver.find_elements(By.CLASS_NAME, "card-worker")
 
-print(profiles)
+# Consolidate list of profile links
+profile_links = []
+
+for i,profile in enumerate(profiles):
+    profile_links.append(profile.get_attribute("href"))
 
 # driver.quit()
