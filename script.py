@@ -5,6 +5,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
 # from selenium.common import exceptions
 
 import time
@@ -49,7 +50,21 @@ profiles = driver.find_elements(By.CLASS_NAME, "card-worker")
 # Consolidate list of profile links
 profile_links = []
 
-for i,profile in enumerate(profiles):
+for profile in profiles:
     profile_links.append(profile.get_attribute("href"))
+
+time.sleep(1)
+
+# Visit worker profiles
+for i,link in enumerate(profile_links[:3]):
+    if(i == 0):
+        driver.execute_script(f"window.open('{link}','_blank');")
+        driver.switch_to.window(driver.window_handles[1])
+    else:
+        driver.get(link)
+
+    time.sleep(2)
+
+driver.close()
 
 # driver.quit()
