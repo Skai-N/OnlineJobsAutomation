@@ -63,6 +63,11 @@ for i,link in enumerate(profile_links[:3]):
     else:
         driver.get(link)
 
+    time.sleep(1)
+
+    button = driver.find_element(By.CLASS_NAME, "contact-js-btn")
+    button.click()
+
     time.sleep(2)
 
 driver.close()
