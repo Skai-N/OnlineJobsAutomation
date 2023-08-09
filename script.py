@@ -40,6 +40,9 @@ driver = webdriver.Chrome(options=options)
 f = open("info", "r")
 info = f.readlines()
 
+# Keep track of what info to load from the info array
+info_index = 0
+
 # Visiting site
 url = "https://onlinejobs.ph/login"
 driver.get(url)
@@ -47,7 +50,8 @@ driver.get(url)
 # Enter username
 login_username = driver.find_element(By.ID, "login_username")
 
-email = info[0]
+email = info[info_index]
+info_index += 1
 login_username.send_keys(email + Keys.RETURN)
 
 time.sleep(0.5)
@@ -55,7 +59,8 @@ time.sleep(0.5)
 # Enter password
 login_password = driver.find_element(By.ID, "login_password")
 
-password = info[1]
+password = info[info_index]
+info_index += 1
 login_password.send_keys(password + Keys.RETURN)
 
 time.sleep(1)
@@ -63,10 +68,13 @@ time.sleep(1)
 # Search for position
 search = driver.find_element(By.NAME, "keyword")
 
-position = info[2]
+position = info[info_index]
+info_index += 1
 search.send_keys(position + Keys.RETURN)
 
 time.sleep(1)
+
+
 
 # Find all worker profiles
 profiles = driver.find_elements(By.CLASS_NAME, "card-worker")
@@ -79,8 +87,13 @@ for profile in profiles:
 
 time.sleep(1)
 
+# Store the current info index so that looping through worker profiles doesn't make unintended changes
+original_info_index = info_index
+
 # Visit worker profiles
 for i,link in enumerate(profile_links[:3]):
+    info_index = original_info_index
+
     if(i == 0):
         driver.execute_script(f"window.open('{link}','_blank');")
         driver.switch_to.window(driver.window_handles[1])
@@ -93,8 +106,10 @@ for i,link in enumerate(profile_links[:3]):
         warning = driver.find_element(By.CLASS_NAME, "text-warning")
     except exceptions.NoSuchElementException:
         # Read in desired qualifications
-        desired_skills = info[3].split(",")
-        desired_skill_level = info[4].split(",")
+        desired_skills = info[info_index].split(",")
+        info_index += 1
+        desired_skill_level = info[info_index].split(",")
+        info_index += 1
 
         # Remove trailing newlines from desired_skills and desired_skill_level
         desired_skills[-1] = desired_skills[-1][:-1]
@@ -131,7 +146,8 @@ for i,link in enumerate(profile_links[:3]):
 
                 # Enter subject
                 info_subject = driver.find_element(By.ID, "info_subject")
-                subject = info[5]
+                subject = info[info_index]
+                info_index += 1
                 info_subject.send_keys(subject)
 
                 time.sleep(0.2)
@@ -139,7 +155,7 @@ for i,link in enumerate(profile_links[:3]):
                 # Enter message
                 info_message = driver.find_element(By.ID, "info_message")
                 message = ''
-                for line in info[6:]:
+                for line in info[info_index:]:
                     message += line
 
                 info_message.send_keys(message)
