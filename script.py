@@ -7,6 +7,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common import exceptions
+from selenium.webdriver.support.ui import Select
 
 import time
 
@@ -74,7 +75,18 @@ search.send_keys(position + Keys.RETURN)
 
 time.sleep(1)
 
+# Select the employment type
+employment_types = ["Any", "Full Time", "Part Time", "Gig"]
+employment_type = employment_types.index(info[info_index][:-1])
+info_index += 1
+select = Select(driver.find_element(By.NAME, "employmenttype"))
+select.select_by_index(employment_type)
 
+# Refine the search
+searches = driver.find_elements(By.NAME, "keyword")
+searches[1].send_keys(Keys.ENTER)
+
+time.sleep(1)
 
 # Find all worker profiles
 profiles = driver.find_elements(By.CLASS_NAME, "card-worker")
