@@ -108,18 +108,24 @@
 
 # # driver.quit()
 
-def findSkills(html):
+def parseSkills(html):
     html = html.split("\n")
+    skills = []
+    stars = []
 
     for line in html:
+        # Find the skill name
         if(line.find("h5") != -1):
             skill = line[line.find(">") + 1:line.rfind("<")]
-            print(skill)
+            skills.append(skill)
+        # Count the number of stars
         if(line.find("/i") != -1):
             num_stars = line.count("fill")
-            print(num_stars)
+            stars.append(num_stars)
+
+    return dict(zip(skills, stars))
 
 f = open("htmldump", "r")
 dump = f.read()
 
-findSkills(dump)
+print(parseSkills(dump))
