@@ -174,6 +174,13 @@ select = Select(driver.find_element(By.NAME, "testIQ"))
 if(IQ > 0):
     select.select_by_index(IQ)
 
+# Select the English score
+score = info[info_index][:-1]
+info_index += 1
+select = Select(driver.find_element(By.NAME, "englishScore"))
+if(int(score) != -1):
+    select.select_by_value(score) # Valid entries: 14, 12, 10, 8, 6, 4
+
 # Refine the search
 searches = driver.find_elements(By.NAME, "keyword")
 searches[1].send_keys(Keys.ENTER)
