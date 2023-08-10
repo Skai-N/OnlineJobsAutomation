@@ -264,12 +264,8 @@ for i,link in enumerate(profile_links):
             skill_found = True
             index = 0
             # Verify if the candidate possesses the necessary skills
-            # print(skills_dict)
             while(skill_found and index < len(desired_skills)):
-                # print("desired: " + desired_skills[index])
-                # print("stars: " + desired_skill_level[index])
                 skill_found = desired_skills[index] in skills_dict and skills_dict[desired_skills[index]] >= int(desired_skill_level[index])
-                # print(skill_found)
                 index += 1
 
             # Contact the candidate if they possess the necessary skills
@@ -300,17 +296,8 @@ for i,link in enumerate(profile_links):
                 # submit_button = driver.find_element(By.CLASS_NAME, "submit-msg")
                 # submit_button.click()
 
-
-
-    time.sleep(5)
+    time.sleep(.2)
 
 driver.close()
 
 # driver.quit()
-
-
-
-# f = open("htmldump", "r")
-# dump = f.read()
-
-# print(parseSkills(dump))
