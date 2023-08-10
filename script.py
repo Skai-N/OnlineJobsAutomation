@@ -62,13 +62,7 @@ login_password = driver.find_element(By.ID, "login_password")
 
 password = info[info_index]
 info_index += 1
-
-while True:
-    try:
-        login_password.send_keys(password + Keys.RETURN)
-        break
-    except exceptions.NoSuchAttributeException:
-        login_password = driver.find_element(By.ID, "login_password")
+login_password.send_keys(password + Keys.RETURN)
 
 time.sleep(1)
 
@@ -158,6 +152,12 @@ match max_salary:
 
 actions.drag_and_drop_by_offset(salary, offset, 0).perform()
 
+# Select the minimum ID proof score
+min_proof_score = info[info_index][:-1]
+info_index += 1
+select = Select(driver.find_element(By.NAME, "trust"))
+if(int(min_proof_score) > 0):
+    select.select_by_value(min_proof_score)
 
 # Refine the search
 searches = driver.find_elements(By.NAME, "keyword")
