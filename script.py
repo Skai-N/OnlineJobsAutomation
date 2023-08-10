@@ -88,10 +88,13 @@ info_index += 1
 select = Select(driver.find_element(By.NAME, "employmenttype"))
 select.select_by_index(employment_type)
 
+# Get all sliders
+sliders = driver.find_elements(By.XPATH, "//span[@tabindex]")
+
 # Change minimum availability
 min_availability = int(info[info_index][:-1])
 info_index += 1 
-availability = driver.find_element(By.XPATH, "//span[@tabindex]")
+availability = sliders[0]
 actions = ActionChains(driver)
 
 match min_availability:
@@ -105,6 +108,56 @@ match min_availability:
         offset = (min_availability - 2) * 15
 
 actions.drag_and_drop_by_offset(availability, offset, 0).perform()
+
+# Change maximum salary
+max_salary = int(info[info_index][:-1])
+info_index += 1
+salary = sliders[3]
+
+match max_salary:
+    case 100:
+        offset = 2
+    case 95:
+        offset = -5
+    case 90:
+        offset = -12
+    case 85:
+        offset = -19
+    case 80:
+        offset = -27
+    case 75:
+        offset = -33
+    case 70:
+        offset = -40
+    case 65:
+        offset = -48
+    case 60:
+        offset = -55
+    case 55:
+        offset = -62
+    case 50:
+        offset = -69
+    case 45:
+        offset = -76
+    case 40:
+        offset = -83
+    case 35:
+        offset = -90
+    case 30:
+        offset = -97
+    case 25:
+        offset = -104
+    case 20:
+        offset = -112
+    case 15:
+        offset = -119
+    case 10:
+        offset = -126
+    case 5:
+        offset = -133
+
+actions.drag_and_drop_by_offset(salary, offset, 0).perform()
+
 
 # Refine the search
 searches = driver.find_elements(By.NAME, "keyword")
