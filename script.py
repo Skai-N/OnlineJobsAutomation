@@ -166,6 +166,14 @@ select = Select(driver.find_element(By.ID, "addate"))
 if(int(max_inactivity) != -1):
     select.select_by_value(max_inactivity) # Valid entries: 7, 31, 93, 186, 366
 
+# Select the IQ
+IQs = ["Any", "extremely-high", "very-high", "high-average", "average"]
+IQ = IQs.index(info[info_index][:-1])
+info_index += 1
+select = Select(driver.find_element(By.NAME, "testIQ"))
+if(IQ > 0):
+    select.select_by_index(IQ)
+
 # Refine the search
 searches = driver.find_elements(By.NAME, "keyword")
 searches[1].send_keys(Keys.ENTER)
