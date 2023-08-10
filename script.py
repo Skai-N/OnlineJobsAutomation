@@ -156,8 +156,15 @@ actions.drag_and_drop_by_offset(salary, offset, 0).perform()
 min_proof_score = info[info_index][:-1]
 info_index += 1
 select = Select(driver.find_element(By.NAME, "trust"))
-if(int(min_proof_score) > 0):
-    select.select_by_value(min_proof_score)
+if(int(min_proof_score) != -1):
+    select.select_by_value(min_proof_score) # Valid entries: 30 - 70 incremented by 5
+
+# Select the maximum inactivity range
+max_inactivity = info[info_index][:-1]
+info_index += 1
+select = Select(driver.find_element(By.ID, "addate"))
+if(int(max_inactivity) != -1):
+    select.select_by_value(max_inactivity) # Valid entries: 7, 31, 93, 186, 366
 
 # Refine the search
 searches = driver.find_elements(By.NAME, "keyword")
