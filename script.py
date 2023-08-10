@@ -62,7 +62,13 @@ login_password = driver.find_element(By.ID, "login_password")
 
 password = info[info_index]
 info_index += 1
-login_password.send_keys(password + Keys.RETURN)
+
+while True:
+    try:
+        login_password.send_keys(password + Keys.RETURN)
+        break
+    except exceptions.NoSuchAttributeException:
+        login_password = driver.find_element(By.ID, "login_password")
 
 time.sleep(1)
 
@@ -81,6 +87,24 @@ employment_type = employment_types.index(info[info_index][:-1])
 info_index += 1
 select = Select(driver.find_element(By.NAME, "employmenttype"))
 select.select_by_index(employment_type)
+
+# Change minimum availability
+min_availability = int(info[info_index][:-1])
+info_index += 1 
+availability = driver.find_element(By.XPATH, "//span[@tabindex]")
+actions = ActionChains(driver)
+
+match min_availability:
+    case 10:
+        offset = 110
+    case 11:
+        offset = 120
+    case 12:
+        offset = 135
+    case _:
+        offset = (min_availability - 2) * 15
+
+actions.drag_and_drop_by_offset(availability, offset, 0).perform()
 
 # Refine the search
 searches = driver.find_elements(By.NAME, "keyword")
