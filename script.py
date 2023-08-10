@@ -187,22 +187,47 @@ searches[1].send_keys(Keys.ENTER)
 
 time.sleep(1)
 
-# Find all worker profiles
-profiles = driver.find_elements(By.CLASS_NAME, "card-worker")
+# Load the maximum number of profiles to scrape, used to keep track of how many more profiles should be scraped
+max_profiles = int(info[info_index][:-1])
+info_index += 1
 
 # Consolidate list of profile links
 profile_links = []
 
-for profile in profiles:
-    profile_links.append(profile.get_attribute("href"))
+while(max_profiles > 0):
+    # Find all worker profiles
+    profiles = driver.find_elements(By.CLASS_NAME, "card-worker")
 
-time.sleep(1)
+    # Modify early to prevent overflow of profile link amount
+    max_profiles -= len(profiles)
+
+    if(max_profiles >= 0):
+        for profile in profiles:
+            profile_links.append(profile.get_attribute("href"))
+
+        # Go to the next page if possible
+        shortcuts = driver.find_elements(By.XPATH, "//a[@aria-label]")
+        
+        labels = []
+        for shortcut in shortcuts:
+            labels.append(shortcut.get_attribute("aria-label"))
+
+        if("Next" in labels):
+            shortcuts[1].click()
+        else:
+            max_profiles = -1
+
+    else:
+        for profile in profiles[:max_profiles + len(profiles)]:
+            profile_links.append(profile.get_attribute("href"))
+
+    time.sleep(1)
 
 # Store the current info index so that looping through worker profiles doesn't make unintended changes
 original_info_index = info_index
 
 # Visit worker profiles
-for i,link in enumerate(profile_links[:3]):
+for i,link in enumerate(profile_links):
     info_index = original_info_index
 
     if(i == 0):
