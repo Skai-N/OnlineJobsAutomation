@@ -75,6 +75,12 @@ search.send_keys(position + Keys.RETURN)
 
 time.sleep(1)
 
+# Navigate to advanced search page
+advanced_search = driver.find_element(By.XPATH, '//a[@href="/employers/advancesearch/"]')
+advanced_search.click()
+
+time.sleep(1)
+
 # Select the employment type
 employment_types = ["Any", "Full Time", "Part Time", "Gig"]
 employment_type = employment_types.index(info[info_index][:-1])
@@ -171,8 +177,7 @@ IQs = ["Any", "extremely-high", "very-high", "high-average", "average"]
 IQ = IQs.index(info[info_index][:-1])
 info_index += 1
 select = Select(driver.find_element(By.NAME, "testIQ"))
-if(IQ > 0):
-    select.select_by_index(IQ)
+select.select_by_index(IQ)
 
 # Select the English score
 score = info[info_index][:-1]
@@ -185,7 +190,7 @@ if(int(score) != -1):
 searches = driver.find_elements(By.NAME, "keyword")
 searches[1].send_keys(Keys.ENTER)
 
-time.sleep(1)
+time.sleep(10)
 
 # Load the maximum number of profiles to scrape, used to keep track of how many more profiles should be scraped
 max_profiles = int(info[info_index][:-1])
